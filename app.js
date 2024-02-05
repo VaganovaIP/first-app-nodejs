@@ -1,17 +1,25 @@
-const http = require("http");
-const fs = require('fs')
-
-
 const hostname = "127.0.0.1";
 const port = 3000;
 
-const server = http.createServer((req, res) => {
-    if(req.url == '/'){
-        fs.createReadStream('index.html').pipe(res);
-    } else if(req.url == '/about')
-        fs.createReadStream('about.html').pipe(res);
+
+const express = require('express');
+
+const app = express();
+
+app.get('/', (req, res)=>{
+    res.send('Express page');
 })
 
-server.listen(port,  hostname, () => {
+app.get('/about', (req, res)=>{
+    res.send('About page')
+})
+
+app.get('/user/:name/:id', (req, res) =>{
+    res.send(`User ID: ${req.params.id}. Username: ${req.params.name}`);
+})
+
+app.listen(port,()=>{
     console.log(`Сервер запущен на http://${hostname}:${port}/`);
 })
+
+
