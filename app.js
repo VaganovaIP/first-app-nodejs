@@ -5,17 +5,19 @@ const port = 3000;
 const express = require('express');
 
 const app = express();
+app.set('view engine', 'ejs');
+app.use(express.static('public'));//подключение статических файлов
 
 app.get('/', (req, res)=>{
-    res.send('Express page');
+    res.render('index');
 })
 
 app.get('/about', (req, res)=>{
-    res.send('About page')
+    res.render('about')
 })
 
-app.get('/user/:name/:id', (req, res) =>{
-    res.send(`User ID: ${req.params.id}. Username: ${req.params.name}`);
+app.get('/user/:name', (req, res) =>{
+    res.render('user', {name: req.params.name});
 })
 
 app.listen(port,()=>{
