@@ -6,6 +6,7 @@ const express = require('express');
 
 const app = express();
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({extended:false}));
 app.use(express.static('public'));//подключение статических файлов
 
 app.get('/', (req, res)=>{
@@ -22,6 +23,14 @@ app.get('/user/:name', (req, res) =>{
 
 app.listen(port,()=>{
     console.log(`Сервер запущен на http://${hostname}:${port}/`);
+})
+
+app.post('/check-user', (req, res) =>{
+    let username = req.body.username;
+    if(username == ""){
+        return res.redirect('/');
+    } else
+        return res.redirect('/user/'+username);
 })
 
 
